@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+  backend:
+    build:
+      context: ./geoguessr-backend
+    env_file:
+      - ./geoguessr-backend/.env.prod
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+    environment:
+      - ENV=prod
+  
+
+  frontend:
+    build:
+      context: ./geoguessr-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,32 @@
+# Byte-compiled / cache
+__pycache__/
+*.py[cod]
+
+# Virtual environments
+venv/
+.venv/
+
+# Environment variables
+.env
+
+# macOS metadata
+.DS_Store
+
+# IDEs and editors
+.idea/
+*.iml
+
+# Logs
+*.log
+
+# Python egg info
+*.egg-info/
+*.egg
+
+# pip cache
+pip-wheel-metadata/
+__pypackages__/
+
+# Built distributions
+dist/
+build/
