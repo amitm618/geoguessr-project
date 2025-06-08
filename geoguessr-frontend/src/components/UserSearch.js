@@ -6,10 +6,12 @@ const UserSearch = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const typingTimeoutRef = useRef(null);
+  const [searchFinished, setSearchFinished] = useState(false);
 
   useEffect(() => {
     if (!query) {
       setResults([]);
+      setSearchFinished(false);
       return;
     }
 
@@ -23,12 +25,12 @@ const UserSearch = () => {
           `/users/search?q=${encodeURIComponent(query)}`
         );
         const data = await res.json();
-        console.log("Querying:", query);
-        console.log("Results:", data);
-
         setResults(data);
       } catch (err) {
         console.error("Search failed:", err);
+        setResults([]);
+      } finally {
+        setSearchFinished(true);
       }
     }, 300);
   }, [query]);
@@ -57,13 +59,17 @@ const UserSearch = () => {
         style={{ padding: "0.5rem", marginRight: "0.5rem" }}
       />
       <ul style={{ marginTop: "1rem" }}>
-        {results.map((user) => (
-          <li key={user.id}>
-            <Link to={`/user/${user.email}`}>
-              {highlightMatch(user.email, query)}
-            </Link>
-          </li>
-        ))}
+        {searchFinished && results.length === 0 ? (
+          <li>No users found.</li>
+        ) : (
+          results.map((user) => (
+            <li key={user.id}>
+              <Link to={`/user/${encodeURIComponent(user.email)}`}>
+                {highlightMatch(user.email, query)}
+              </Link>
+            </li>
+          ))
+        )}
       </ul>
     </div>
   );
