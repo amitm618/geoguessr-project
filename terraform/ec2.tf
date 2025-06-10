@@ -23,6 +23,14 @@ resource "aws_security_group" "geoguessr_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"] # SSH
   }
+ 
+  ingress {
+  from_port   = 3000
+  to_port     = 3000
+  protocol    = "tcp"
+  cidr_blocks = ["0.0.0.0/0"] # Allow React frontend
+}
+
 
   ingress {
     from_port   = 80

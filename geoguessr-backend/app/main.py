@@ -32,7 +32,7 @@ GOOGLE_REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI")
 app = FastAPI()
 
 app.add_middleware(
-    CORSMiddleware,
+    CORSMiddleware,   # type: ignore[arg-type]
     allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
@@ -40,7 +40,7 @@ app.add_middleware(
 )
 
 app.add_middleware(
-    SessionMiddleware,
+    SessionMiddleware, # type: ignore[arg-type]
     secret_key=os.getenv("SECRET_KEY", "some-default-key")
 )
 
