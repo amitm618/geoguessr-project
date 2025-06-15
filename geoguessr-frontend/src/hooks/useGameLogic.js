@@ -1,5 +1,5 @@
 // hooks/useGameLogic.js
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import fetchStreetView from "../utils/fetchStreetView";
 import calculateDistance from "../utils/calculateDistance";
 import { MAX_SCORE_DISTANCE } from "../utils/constants";
@@ -25,10 +25,8 @@ const useGameLogic = (setHistoryRefreshKey) => {
       setDistanceKm(dist.toFixed(2));
       setShowResult(true);
 
-      // ✅ Trigger history refresh
       setHistoryRefreshKey?.((prev) => prev + 1);
 
-      // ✅ Backend call
       const token = localStorage.getItem("token");
       if (!token) {
         console.warn("No token found — user must log in to submit score.");

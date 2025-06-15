@@ -30,10 +30,10 @@ const Profile = ({ onUnauthorized }) => {
   }, []);
 
   return (
-    <div style={{ padding: "1rem" }}>
-      <h2>👤 Profile</h2>
+    <div className="profile-page-container">
+      <h2 className="profile-header">👤 Profile</h2>
 
-      <div style={{ display: "flex", gap: "2rem", alignItems: "flex-start" }}>
+      <div className="profile-container">
         {/* Left column: user info + stats */}
         <div style={{ flex: 1 }}>
           <section className="profile-section" style={{ marginBottom: "2rem" }}>

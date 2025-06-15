@@ -48,6 +48,20 @@ function GamePage() {
     if (authed) handlePlay();
   }, [authed, handlePlay]);
 
+  //Press enter to guess
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.key === "Enter" || e.key === " ") && guess) {
+        handleSubmit();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [guess, handleSubmit]);
+
   // Auto-logout if token is expired
   useEffect(() => {
     const interval = setInterval(() => {

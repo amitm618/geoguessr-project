@@ -240,8 +240,77 @@ button:disabled {
   background-color: #357ae8;
 }
 
-.profile-container {
+.update-password-btn {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  border-radius: 6px;
+  border: 1px solid #888;
+  background-color: #f1f1f1;
+  cursor: pointer;
+  color: black;
+}
+.stats-container {
   padding: 1rem;
+}
+
+.chart-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+.auth-form-wrapper {
+  background-image: url("https://geoguessr-bucket1.s3.amazonaws.com/login-background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding-top: 5vh; /* Space between bottom and form */
+}
+
+.auth-form {
+  background-color: rgba(255, 255, 255, 0.85);
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.15);
+  width: 100%;
+  max-width: 400px;
+
+  text-align: center;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.auth-form .error-text {
+  color: red;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+.profile-page-container {
+  padding: 1rem;
+  max-width: 100%;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+.profile-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 100%;
 }
 
 .profile-title {
@@ -284,22 +353,16 @@ button:disabled {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
   margin-bottom: 1.5rem;
 }
-.update-password-btn {
-  margin-top: 0.5rem;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.9rem;
-  border-radius: 6px;
-  border: 1px solid #888;
-  background-color: #f1f1f1;
-  cursor: pointer;
-  color: black;
-}
-.stats-container {
-  padding: 1rem;
+
+body {
+  background-image: url("https://geoguessr-bucket1.s3.amazonaws.com/login-background.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
-.chart-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
+.profile-header {
+  color: white;
+  font-size: 3rem;
 }

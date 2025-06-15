@@ -1,7 +1,6 @@
-from pydantic import BaseModel
-from typing import Optional
-from pydantic import BaseModel
 from datetime import datetime
+
+from pydantic import BaseModel
 
 
 class UserCreate(BaseModel):
@@ -26,7 +25,7 @@ class GameResult(BaseModel):
 
 
 class GameEntry(BaseModel):
-    id: int  # 👈 Add this line to expose the entry ID
+    id: int
     distance_km: float
     points: int
     guess_lat: float
@@ -37,3 +36,11 @@ class GameEntry(BaseModel):
 
     class Config:
         orm_mode = True
+
+
+class PasswordUpdateRequest(BaseModel):
+    current_password: str
+    new_password: str
+
+class SetPasswordRequest(BaseModel):
+        new_password: str

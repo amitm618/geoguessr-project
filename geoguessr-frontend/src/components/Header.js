@@ -25,11 +25,9 @@ const Header = ({ showResult, guess, handleSubmit, onLogout }) => {
 
       <nav className="menu">
         <Link to="/profile" className="menu-item">
-          Profile
-        </Link>
-        <span className="menu-item">
           <strong>{userEmail}</strong>
-        </span>
+        </Link>
+
         <button className="menu-item" onClick={onLogout}>
           Logout
         </button>

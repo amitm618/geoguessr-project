@@ -36,7 +36,8 @@ const PublicProfile = () => {
       <Header />
 
       <div style={{ padding: "1rem" }}>
-        <h2>👤 Public Profile</h2>
+        <h2 className="profile-header">👤 Profile</h2>
+
         {loading ? (
           <p>Loading...</p>
         ) : email === "Not Found" ? (

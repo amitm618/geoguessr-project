@@ -24,10 +24,12 @@ const DeleteEntryButton = ({ entryId, onDelete }) => {
       if (res.ok) {
         onDelete(); // refresh the list
       } else {
-        console.error("Failed to delete entry:", await res.text());
+        const errorData = await res.json(); // 👈 extract JSON
+        alert(errorData.detail || "Failed to delete entry."); // 👈 show message
       }
     } catch (err) {
       console.error("Error deleting entry:", err);
+      alert("An error occurred. Please try again.");
     }
   };
 

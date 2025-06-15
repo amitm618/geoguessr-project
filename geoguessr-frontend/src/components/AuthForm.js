@@ -45,7 +45,7 @@ const AuthForm = ({ onAuthSuccess }) => {
         throw new Error(data.detail || "Authentication failed");
       }
 
-      console.log("✅ Auth Success:", data); // DEBUG
+      console.log("✅ Auth Success:", data);
       onAuthSuccess(data.access_token);
     } catch (err) {
       console.error("❌ Auth error:", err);
@@ -59,51 +59,57 @@ const AuthForm = ({ onAuthSuccess }) => {
   };
 
   return (
-    <div className="auth-form">
-      <h2>{mode === "login" ? "Login" : "Register"}</h2>
-      <form onSubmit={handleSubmit} autoComplete="on">
-        <input
-          type="email"
-          name="email"
-          autoComplete="email"
-          placeholder="Email"
-          value={email}
-          required
-          onChange={(e) => setEmail(e.target.value)}
-        />
+    <div className="auth-form-wrapper">
+      <div className="auth-form">
+        <h2>{mode === "login" ? "Login" : "Register"}</h2>
+        <form onSubmit={handleSubmit} autoComplete="on">
+          <input
+            type="email"
+            name="email"
+            autoComplete="email"
+            placeholder="Email"
+            value={email}
+            required
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-        <input
-          type="password"
-          name="password"
-          autoComplete={mode === "login" ? "current-password" : "new-password"}
-          placeholder="Password"
-          value={password}
-          required
-          onChange={(e) => setPassword(e.target.value)}
-        />
+          <input
+            type="password"
+            name="password"
+            autoComplete={
+              mode === "login" ? "current-password" : "new-password"
+            }
+            placeholder="Password"
+            value={password}
+            required
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <button type="submit">{mode === "login" ? "Login" : "Register"}</button>
-      </form>
+          <button type="submit">
+            {mode === "login" ? "Login" : "Register"}
+          </button>
+        </form>
 
-      <div style={{ marginTop: "1rem" }}>
-        <button onClick={handleGoogleLogin} className="google-login-button">
-          🌐 Sign in with Google
-        </button>
+        <div style={{ marginTop: "1rem" }}>
+          <button onClick={handleGoogleLogin} className="google-login-button">
+            🌐 Sign in with Google
+          </button>
+        </div>
+
+        {error && <p className="error-text">❌ {error}</p>}
+
+        <p style={{ marginTop: "1rem" }}>
+          {mode === "login" ? "Don't have an account?" : "Already registered?"}{" "}
+          <button
+            type="button"
+            onClick={() =>
+              setMode((prev) => (prev === "login" ? "register" : "login"))
+            }
+          >
+            {mode === "login" ? "Register" : "Login"} instead
+          </button>
+        </p>
       </div>
-
-      {error && <p className="error-text">❌ {error}</p>}
-
-      <p style={{ marginTop: "1rem" }}>
-        {mode === "login" ? "Don't have an account?" : "Already registered?"}{" "}
-        <button
-          type="button"
-          onClick={() =>
-            setMode((prev) => (prev === "login" ? "register" : "login"))
-          }
-        >
-          {mode === "login" ? "Register" : "Login"} instead
-        </button>
-      </p>
     </div>
   );
 };

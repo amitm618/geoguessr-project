@@ -16,8 +16,6 @@ class User(Base):
     google_id = Column(String, nullable=True)
 
 
-
-
 class GameHistory(Base):
     __tablename__ = "game_history"
 
@@ -34,6 +32,6 @@ class GameHistory(Base):
         default=lambda: datetime.now(pytz.timezone("Asia/Jerusalem")),
         nullable=False,
     )
-    is_visible = Column(Boolean, default=True)  # 👈 Add this line
+    is_visible = Column(Boolean, default=True)  # Checks if a line is deleted by the user or not
 
     user = relationship("User", backref="game_history")
