@@ -5,6 +5,8 @@ __pycache__/
 # Virtual environments
 venv/
 .venv/
+geoguessr-backend/venv/
+geoguessr-backend/.venv/
 
 # Environment variables
 .env
@@ -15,6 +17,7 @@ venv/
 # IDEs and editors
 .idea/
 *.iml
+.vscode/
 
 # Logs
 *.log
@@ -30,3 +33,6 @@ __pypackages__/
 # Built distributions
 dist/
 build/
+
+# OS tar files or archives
+*.tar
