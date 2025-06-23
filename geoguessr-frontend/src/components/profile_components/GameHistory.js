@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
-import useFetchHistory from "./history_components/useFetchHistory";
-import ResetHistoryButton from "./history_components/ResetHistoryButton";
-import HistoryRow from "./history_components/HistoryRow";
-import { fetchWithAuth } from "../utils/fetchWithAuth"; // adjust path if needed
+import useFetchHistory from "../history_components/useFetchHistory";
+import ResetHistoryButton from "../history_components/ResetHistoryButton";
+import HistoryRow from "../history_components/HistoryRow";
+import { fetchWithAuth } from "../../utils/fetchWithAuth"; // adjust path if needed
 
-const GameHistory = ({ refreshTrigger = 0, onUnauthorized, userId = null }) => {
+const GameHistory = ({
+  refreshTrigger = 0,
+  handleUnauthorized,
+  userId = null,
+}) => {
   const [history, setHistory] = useState([]);
-  const fetchHistory = useFetchHistory(setHistory, onUnauthorized);
+  const fetchHistory = useFetchHistory(setHistory, handleUnauthorized);
 
   useEffect(() => {
     const fetchHistory = async () => {
@@ -17,13 +21,13 @@ const GameHistory = ({ refreshTrigger = 0, onUnauthorized, userId = null }) => {
         const data = await res.json();
         setHistory(data);
       } catch (err) {
-        if (onUnauthorized) onUnauthorized();
+        if (handleUnauthorized) handleUnauthorized();
         console.error("Error fetching game history:", err);
       }
     };
 
     fetchHistory();
-  }, [refreshTrigger, userId, onUnauthorized]);
+  }, [refreshTrigger, userId, handleUnauthorized]);
 
   return (
     <div style={{ padding: "1rem" }}>

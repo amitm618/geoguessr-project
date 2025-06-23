@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import MainButton from "./MainButton";
+import MainButton from "./game_components/MainButton";
 import "../App.css";
 
-const Header = ({ showResult, guess, handleSubmit, onLogout }) => {
+const Header = ({ showResult, guess, handleSubmitGuess, handleLogout }) => {
   const token = localStorage.getItem("token");
   const userEmail = token
     ? JSON.parse(atob(token.split(".")[1])).sub
@@ -17,8 +17,8 @@ const Header = ({ showResult, guess, handleSubmit, onLogout }) => {
         </Link>
       </h1>
 
-      {!showResult && handleSubmit && (
-        <MainButton onClick={handleSubmit} disabled={!guess}>
+      {!showResult && handleSubmitGuess && (
+        <MainButton onClick={handleSubmitGuess} disabled={!guess}>
           Submit Guess
         </MainButton>
       )}
@@ -28,7 +28,7 @@ const Header = ({ showResult, guess, handleSubmit, onLogout }) => {
           <strong>{userEmail}</strong>
         </Link>
 
-        <button className="menu-item" onClick={onLogout}>
+        <button className="menu-item" onClick={handleLogout}>
           Logout
         </button>
       </nav>

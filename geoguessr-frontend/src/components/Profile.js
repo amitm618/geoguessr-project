@@ -1,22 +1,26 @@
 import React, { useState, useEffect } from "react";
-import GameHistory from "./GameHistory";
-import Stats from "./Stats";
-import ChangePasswordForm from "./ChangePasswordForm";
-import SetPasswordForm from "./SetPasswordForm";
+import GameHistory from "./profile_components/GameHistory";
+import Stats from "./profile_components/Stats";
+import ChangePasswordForm from "./profile_components/ChangePasswordForm";
+import SetPasswordForm from "./profile_components/SetPasswordForm";
 import { fetchWithAuth } from "../utils/fetchWithAuth";
-import UserSearch from "./UserSearch";
+import UserSearch from "./profile_components/UserSearch";
 
-const Profile = ({ onUnauthorized }) => {
+const Profile = ({ handleUnauthorized }) => {
   const token = localStorage.getItem("token");
   const email = token ? JSON.parse(atob(token.split(".")[1])).sub : "Unknown";
   const [showPasswordForm, setShowPasswordForm] = useState(false);
-  const [hasPassword, setHasPassword] = useState(true); // default to true
+  const [hasPassword, setHasPassword] = useState(true);
   const [isLoadingPasswordStatus, setIsLoadingPasswordStatus] = useState(true);
 
   useEffect(() => {
     const checkPasswordStatus = async () => {
       try {
         const res = await fetchWithAuth("/me");
+        if (res.status === 401 && handleUnauthorized) {
+          handleUnauthorized();
+          return;
+        }
         const data = await res.json();
         setHasPassword(data.has_password);
       } catch (err) {
@@ -27,14 +31,13 @@ const Profile = ({ onUnauthorized }) => {
     };
 
     checkPasswordStatus();
-  }, []);
+  }, [handleUnauthorized]);
 
   return (
     <div className="profile-page-container">
       <h2 className="profile-header">👤 Profile</h2>
 
       <div className="profile-container">
-        {/* Left column: user info + stats */}
         <div style={{ flex: 1 }}>
           <section className="profile-section" style={{ marginBottom: "2rem" }}>
             <h3>User Info</h3>
@@ -70,9 +73,11 @@ const Profile = ({ onUnauthorized }) => {
           </section>
         </div>
 
-        {/* Right column: history */}
         <div className="profile-section" style={{ flex: 1 }}>
-          <GameHistory refreshTrigger={0} onUnauthorized={onUnauthorized} />
+          <GameHistory
+            refreshTrigger={0}
+            handleUnauthorized={handleUnauthorized}
+          />
         </div>
       </div>
     </div>

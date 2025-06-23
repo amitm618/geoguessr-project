@@ -1,7 +1,6 @@
 import { loadBackendAddress } from "./loadBackendAddress";
 
-const fetchStreetView = async ({ setLatLng, setImageUrl, setLoading }) => {
-  if (setLoading) setLoading(true);
+const fetchStreetView = async ({ setLatLng, setImageUrl }) => {
   try {
     const baseUrl = await loadBackendAddress();
 
@@ -16,8 +15,6 @@ const fetchStreetView = async ({ setLatLng, setImageUrl, setLoading }) => {
     setImageUrl(imageData.image_url);
   } catch (err) {
     console.error("Error fetching data:", err);
-  } finally {
-    if (setLoading) setLoading(false);
   }
 };
 

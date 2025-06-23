@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { fetchWithAuth } from "../utils/fetchWithAuth";
+import { fetchWithAuth } from "../../utils/fetchWithAuth";
 
 const SetPasswordForm = () => {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
 
-  const handleSubmit = async (e) => {
+  const handleSubmitSetPass = async (e) => {
     e.preventDefault();
     setMessage(null);
 
@@ -28,16 +28,16 @@ const SetPasswordForm = () => {
         throw new Error(data.detail || "Failed to set password.");
       }
 
-      setMessage("✅ Password set successfully.");
+      setMessage("Password set successfully.");
       setNewPassword("");
       setConfirmPassword("");
     } catch (err) {
-      setMessage(`❌ ${err.message}`);
+      setMessage(`${err.message}`);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginTop: "1rem" }}>
+    <form onSubmit={handleSubmitSetPass} style={{ marginTop: "1rem" }}>
       <h4>Set a Password</h4>
       <div>
         <input

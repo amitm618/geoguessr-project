@@ -1,6 +1,6 @@
 const API_URL = process.env.REACT_APP_API_URL;
 
-export const fetchWithAuth = async (url, options = {}, onUnauthorized) => {
+export const fetchWithAuth = async (url, options = {}, handleUnauthorized) => {
   const token = localStorage.getItem("token");
 
   const headers = {
@@ -13,8 +13,8 @@ export const fetchWithAuth = async (url, options = {}, onUnauthorized) => {
     headers,
   });
 
-  if (res.status === 401 && onUnauthorized) {
-    onUnauthorized(); // 🔥 handle session expired
+  if (res.status === 401 && handleUnauthorized) {
+    handleUnauthorized(); //
   }
 
   return res;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { fetchWithAuth } from "../utils/fetchWithAuth";
+import { fetchWithAuth } from "../../utils/fetchWithAuth";
 
 const ChangePasswordForm = () => {
   const [current, setCurrent] = useState("");
@@ -7,7 +7,7 @@ const ChangePasswordForm = () => {
   const [confirm, setConfirm] = useState("");
   const [message, setMessage] = useState(null);
 
-  const handleSubmit = async (e) => {
+  const handleSubmitChangePass = async (e) => {
     e.preventDefault();
     setMessage(null);
 
@@ -29,17 +29,17 @@ const ChangePasswordForm = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.detail || "Failed to update password");
 
-      setMessage("✅ Password updated successfully.");
+      setMessage("Password updated successfully.");
       setCurrent("");
       setNewPass("");
       setConfirm("");
     } catch (err) {
-      setMessage(`❌ ${err.message}`);
+      setMessage(`${err.message}`);
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginTop: "1rem" }}>
+    <form onSubmit={handleSubmitChangePass} style={{ marginTop: "1rem" }}>
       <h3>Change Password</h3>
       <div>
         <input

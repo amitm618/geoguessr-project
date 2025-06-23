@@ -1,11 +1,11 @@
 import React from "react";
 import { MapContainer, TileLayer, Marker, Polyline } from "react-leaflet";
 import L from "leaflet";
-import ZoomToMarkers from "./map_components/ZoomToMarkers";
-import ZoomOutReset from "./map_components/ZoomOutReset";
-import ForceResizeOnExpand from "./map_components/ForceResizeOnExpand";
-import LocationPicker from "./map_components/LocationPicker";
-import { createLineBetweenPoints } from "./map_components/lineHelpers";
+import ZoomToMarkers from "../map_components/ZoomToMarkers";
+import ZoomOutReset from "../map_components/ZoomOutReset";
+import ForceResizeOnExpand from "../map_components/ForceResizeOnExpand";
+import LocationPicker from "../map_components/LocationPicker";
+import { createLineBetweenPoints } from "../map_components/lineHelpers";
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({

@@ -24,8 +24,8 @@ const DeleteEntryButton = ({ entryId, onDelete }) => {
       if (res.ok) {
         onDelete(); // refresh the list
       } else {
-        const errorData = await res.json(); // 👈 extract JSON
-        alert(errorData.detail || "Failed to delete entry."); // 👈 show message
+        const errorData = await res.json();
+        alert(errorData.detail || "Failed to delete entry.");
       }
     } catch (err) {
       console.error("Error deleting entry:", err);

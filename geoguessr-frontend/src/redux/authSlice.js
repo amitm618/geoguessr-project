@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { isTokenExpired } from "../../utils/jwtUtils";
+import { isTokenExpired } from "../utils/jwtUtils";
 
-const token = localStorage.getItem("token"); // ✅ Define token before using it
+const token = localStorage.getItem("token");
 
 const initialState = {
   isAuthenticated: token && !isTokenExpired(token),

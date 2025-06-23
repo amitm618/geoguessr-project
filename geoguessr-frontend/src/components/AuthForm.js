@@ -1,32 +1,26 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { loadBackendAddress } from "../utils/loadBackendAddress"; // adjust path if needed
+import { useDispatch } from "react-redux";
 
 const AuthForm = ({ onAuthSuccess }) => {
-  const [mode, setMode] = useState("login"); // "login" or "register"
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [mode, setMode] = useState("login"); // login or register
+  const [email, setEmail] = useState(""); //input
+  const [password, setPassword] = useState(""); //input
   const [error, setError] = useState("");
   const [apiBaseUrl, setApiBaseUrl] = useState("");
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    fetch("/backend-address.txt")
-      .then((res) => res.text())
-      .then((text) => {
-        const match = text.match(/^BACKEND_ADDRESS\s*=\s*(.+)$/m);
-        if (match) {
-          setApiBaseUrl(match[1].trim());
-        } else {
-          console.error(
-            "Could not parse BACKEND_ADDRESS from backend-address.txt"
-          );
-        }
-      })
+    loadBackendAddress()
+      .then(setApiBaseUrl)
       .catch((err) => {
         console.error("Failed to load backend address:", err);
+        setError("Could not load backend address.");
       });
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmitLogin = async (e) => {
+    e.preventDefault(); //prevents page from refreshing when i click login/register
     if (!apiBaseUrl) return setError("Backend address not loaded yet.");
 
     const endpoint = mode === "login" ? "login" : "register";
@@ -42,13 +36,14 @@ const AuthForm = ({ onAuthSuccess }) => {
       const data = await res.json();
 
       if (!res.ok) {
+        //checks if status code is ok (ok is 200-299)
         throw new Error(data.detail || "Authentication failed");
       }
 
-      console.log("✅ Auth Success:", data);
-      onAuthSuccess(data.access_token);
+      console.log("Auth Success:", data);
+      dispatch({ type: "auth/login", payload: data.access_token });
     } catch (err) {
-      console.error("❌ Auth error:", err);
+      console.error("Auth error:", err); //errors from try block above
       setError(err.message);
     }
   };
@@ -62,7 +57,7 @@ const AuthForm = ({ onAuthSuccess }) => {
     <div className="auth-form-wrapper">
       <div className="auth-form">
         <h2>{mode === "login" ? "Login" : "Register"}</h2>
-        <form onSubmit={handleSubmit} autoComplete="on">
+        <form onSubmit={handleSubmitLogin} autoComplete="on">
           <input
             type="email"
             name="email"
@@ -90,13 +85,28 @@ const AuthForm = ({ onAuthSuccess }) => {
           </button>
         </form>
 
-        <div style={{ marginTop: "1rem" }}>
-          <button onClick={handleGoogleLogin} className="google-login-button">
-            🌐 Sign in with Google
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "1rem",
+          }}
+        >
+          <button
+            onClick={handleGoogleLogin}
+            className="google-login-button"
+            style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
+          >
+            <img
+              src="https://developers.google.com/identity/images/g-logo.png"
+              alt="Google logo"
+              style={{ width: "20px", height: "20px" }}
+            />
+            Sign in with Google
           </button>
         </div>
 
-        {error && <p className="error-text">❌ {error}</p>}
+        {error && <p className="error-text"> {error}</p>}
 
         <p style={{ marginTop: "1rem" }}>
           {mode === "login" ? "Don't have an account?" : "Already registered?"}{" "}

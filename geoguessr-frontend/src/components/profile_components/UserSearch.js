@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { fetchWithAuth } from "../utils/fetchWithAuth";
+import { fetchWithAuth } from "../../utils/fetchWithAuth";
 import { Link } from "react-router-dom";
 
 const UserSearch = () => {

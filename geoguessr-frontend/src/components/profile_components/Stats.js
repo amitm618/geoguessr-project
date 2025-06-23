@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchWithAuth } from "../utils/fetchWithAuth";
+import { fetchWithAuth } from "../../utils/fetchWithAuth";
 import {
   BarChart,
   Bar,

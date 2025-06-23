@@ -1,10 +1,13 @@
 // hooks/useGameLogic.js
-import { useState, useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import fetchStreetView from "../utils/fetchStreetView";
+import submitScore from "../utils/submitScore";
+
 import calculateDistance from "../utils/calculateDistance";
 import { MAX_SCORE_DISTANCE } from "../utils/constants";
 
-const useGameLogic = (setHistoryRefreshKey) => {
+const useGameLogic = (onUnauthorized) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [latLng, setLatLng] = useState(null);
   const [guess, setGuess] = useState(null);
@@ -13,8 +16,9 @@ const useGameLogic = (setHistoryRefreshKey) => {
   const [resetZoomSignal, setResetZoomSignal] = useState(0);
   const [isMapExpanded, setIsMapExpanded] = useState(false);
   const [points, setPoints] = useState(null);
+  const authed = useSelector((state) => state.auth.isAuthenticated);
 
-  const handleSubmit = useCallback(() => {
+  const handleSubmitGuess = useCallback(() => {
     if (guess && latLng) {
       const dist = calculateDistance(guess, latLng);
       const score = Math.max(
@@ -25,38 +29,22 @@ const useGameLogic = (setHistoryRefreshKey) => {
       setDistanceKm(dist.toFixed(2));
       setShowResult(true);
 
-      setHistoryRefreshKey?.((prev) => prev + 1);
-
       const token = localStorage.getItem("token");
       if (!token) {
         console.warn("No token found — user must log in to submit score.");
         return;
       }
 
-      fetch("http://127.0.0.1:8000/submit-score", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          distance_km: dist,
-          points: score,
-          guess_lat: guess.lat,
-          guess_lng: guess.lng,
-          actual_lat: latLng.lat,
-          actual_lng: latLng.lng,
-        }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          console.log("Score submitted:", data);
-        })
-        .catch((err) => {
-          console.error("Error submitting score:", err);
-        });
+      submitScore({
+        token,
+        distance_km: dist,
+        points: score,
+        guess,
+        actual: latLng,
+        onUnauthorized,
+      });
     }
-  }, [guess, latLng, setHistoryRefreshKey]);
+  }, [guess, latLng, onUnauthorized]);
 
   const handlePlay = useCallback(() => {
     fetchStreetView({ setLatLng, setImageUrl });
@@ -73,6 +61,23 @@ const useGameLogic = (setHistoryRefreshKey) => {
     setIsMapExpanded(true);
   }, []);
 
+  // Submit guess on enter or space
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.key === "Enter" || e.key === " ") && guess) {
+        handleSubmitGuess();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [guess, handleSubmitGuess]);
+
+  // Auto-play after login
+  useEffect(() => {
+    if (authed) handlePlay();
+  }, [authed, handlePlay]);
+
   return {
     imageUrl,
     latLng,
@@ -83,7 +88,7 @@ const useGameLogic = (setHistoryRefreshKey) => {
     isMapExpanded,
     points,
     handlePlay,
-    handleSubmit,
+    handleSubmitGuess,
     handleMapClick,
     setIsMapExpanded,
   };

@@ -1,8 +1,8 @@
 // src/components/PublicProfile.js
 import React, { useEffect, useState } from "react";
 import Header from "./Header";
-import GameHistory from "./GameHistory";
-import Stats from "./Stats";
+import GameHistory from "./profile_components/GameHistory";
+import Stats from "./profile_components/Stats";
 import { useParams } from "react-router-dom";
 import { fetchWithAuth } from "../utils/fetchWithAuth";
 

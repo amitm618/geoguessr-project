@@ -67,7 +67,10 @@ oauth.register(
     authorize_url="https://accounts.google.com/o/oauth2/auth",
     authorize_params={"access_type": "offline", "prompt": "consent"},
     api_base_url="https://www.googleapis.com/oauth2/v1/",
-    client_kwargs={"scope": "email profile"}
+    client_kwargs=
+    {
+        "scope": "email profile https://www.googleapis.com/auth/user.birthday.read"
+    }
 )
 
 # Redirects the user to Google's OAuth 2.0 login page
